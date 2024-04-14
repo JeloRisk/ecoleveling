@@ -1,0 +1,145 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Header styles */
+header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.styled-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffc107;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+}
+
+section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+/* Styling for the about section */
+#about {
+    padding: 100px 100px;
+    background-color: #f2f2f2;
+  }
+  
+  /* Styling for the container of about content */
+  .about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap-reverse; /* Reverse the order of items on wrap */
+  }
+  
+  /* Styling for the profile picture */
+  .profile-picture {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin-right: 50px;
+  }
+  
+  /* Styling for the about text */
+  .about-text {
+    flex: 1;
+  }
+  
+  /* Styling for the contact information */
+  .contact-info {
+    margin-top: 20px;
+  }
+  
+  .contact-info p {
+    margin: 5px 0;
+  }
+  
+  .contact-info strong {
+    font-weight: bold;
+  }
+  
+/* Project styles */
+.project {
+    margin-bottom: 20px;
+}   
+
+.project h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.project p {
+    color: #6c757d;
+}
+
+/* Skill styles */
+.skill {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.skill img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+/* Recommendation styles */
+.recommendation {
+    background-color: #f8d7da;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.recommendation p {
+    margin-bottom: 10px;
+    color: #721c24;
+}
