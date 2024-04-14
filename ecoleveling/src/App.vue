@@ -49,7 +49,7 @@
         class="mx-4"
       >Dashboard</RouterLink>
       <RouterLink
-        to="/about"
+        to="/rooms"
         class="mx-4"
       >Rooms</RouterLink>
     </div>
@@ -66,7 +66,7 @@
         class="block p-4 hover:bg-gray-300 hover:text-gray-800 text-white rounded-lg"
       >Dashboard</RouterLink>
       <RouterLink
-        to="/about"
+        to="/rooms"
         class="block p-4 hover:bg-gray-300 hover:text-gray-800 text-white rounded-lg"
       >Rooms</RouterLink>
     </div>

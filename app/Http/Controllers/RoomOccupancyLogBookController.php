@@ -82,7 +82,6 @@ class RoomOccupancyLogBookController extends Controller
     //         'data' => $data
     //     ]);
     // }
-
     public function index(Request $request)
     {
         $logBooksQuery = RoomOccupancyLogBook::query();
@@ -92,7 +91,30 @@ class RoomOccupancyLogBookController extends Controller
             $logBooksQuery->where('room_id', $request->input('room_id'));
         }
 
-        // Sort the log books by date
+        // alaen tay idjay room table to retrieve the Room Number
+        $logBooksQuery->leftJoin('rooms', 'room_occupancy_log_books.room_id', '=', 'rooms.id')
+            ->select('room_occupancy_log_books.*', 'rooms.roomNumber');
+
+        // sort  the log books by date
+        $logBooksQuery->orderBy('date');
+
+        // retrieve or patch log books
+        $logBooks = $logBooksQuery->get();
+
+        return response()->json($logBooks);
+    }
+
+
+    public function getChartData(Request $request)
+    {
+        $logBooksQuery = RoomOccupancyLogBook::query();
+
+        // check if the room_id parameter is in the request and filter it by the ID.
+        if ($request->has('room_id')) {
+            $logBooksQuery->where('room_id', $request->input('room_id'));
+        }
+
+        // sort the log books by date
         $logBooksQuery->orderBy('date');
 
         // retrieve log books and group by date
@@ -115,6 +137,48 @@ class RoomOccupancyLogBookController extends Controller
     }
 
 
+
+    // public function index(Request $request)
+    // {
+    //     $logBooksQuery = RoomOccupancyLogBook::query();
+
+    //     // Check if the room_id parameter is in the request and filter it by the ID.
+    //     if ($request->has('room_id')) {
+    //         $logBooksQuery->where('room_id', $request->input('room_id'));
+    //     }
+
+    //     // Sort the log books by date
+    //     $logBooksQuery->orderBy('date');
+
+    //     // Retrieve log books with additional fields
+    //     $logBooks = $logBooksQuery->get(['id', 'date', 'startTime', 'endTime', 'room_id', 'usageMinutes', 'status', 'location']);
+
+    //     // Group log books by date
+    //     $logBooksPerDay = $logBooks->groupBy('date');
+
+    //     // Calculate usage minutes per day
+    //     $usageMinutesPerDay = $logBooksPerDay->map(function ($logBooks) {
+    //         return $logBooks->sum('usageMinutes');
+    //     });
+
+    //     // Prepare data for response
+    //     $data = $logBooksPerDay->map(function ($logBooks) {
+    //         return $logBooks->map(function ($logBook) {
+    //             return [
+    //                 'id' => $logBook->id,
+    //                 'date' => $logBook->date,
+    //                 'startTime' => $logBook->startTime,
+    //                 'endTime' => $logBook->endTime,
+    //                 'room_id' => $logBook->room_id,
+    //                 'usageMinutes' => $logBook->usageMinutes,
+    //                 'status' => $logBook->status,
+    //                 'location' => $logBook->location,
+    //             ];
+    //         });
+    //     });
+
+    //     return response()->json($data);
+    // }
 
 
     /**

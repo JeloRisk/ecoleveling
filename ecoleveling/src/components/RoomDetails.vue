@@ -73,6 +73,11 @@
                     @data-fetch-request="fetchData"
                 /> -->
                 <ChartForAll :roomIdFromDetail="`${room.id}`" />
+
+                <DynamicTable
+                    :columns="columns"
+                    :rows="rows"
+                />
             </div>
         </div>
     </div>
@@ -88,10 +93,11 @@
     import axios from 'axios';
     // import Chart from '@/components/ChartsComponent.vue';
     import ChartForAll from './ChartForAll.vue';
+    import DynamicTable from '@/components/uiComponents/DynamicTable.vue';
 
     export default {
         components: {
-            ChartForAll
+            ChartForAll, DynamicTable
         },
         props: ['id'],
         data() {
@@ -100,13 +106,41 @@
                 showModal: false,
                 confirmationText: '',    // the text entered by the user for confirmation
                 apiUrl: 'http://localhost:8000/api/room-occupancy-log-books',
-                disableConfirmationButton: false
+                disableConfirmationButton: false,
+
+                // for dynamic table
+                columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
+                rows: [],
             };
         },
         created() {
             this.fetchRoomDetails();
+            this.fetchData();
         },
         methods: {
+
+            async fetchData() {
+                try {
+                    const response = await axios.get('http://localhost:8000/api/room-occupancy-log-books');
+                    // Map the retrieved data to match the column names
+                    this.rows = response.data.map(row => ({
+
+                        // id: row.id,
+                        roomNumber: row.roomNumber,
+                        date: row.date,
+                        startTime: row.startTime,
+                        endTime: row.endTime,
+                        usageMinutes: this.formatNumber(row.usageMinutes),
+                        // status: row.status,
+                        // location: row.location,
+                    }));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            },
+            formatNumber(num) {
+                return parseFloat(num).toFixed(2)
+            },
 
             // fetch room details from the backend
             fetchRoomDetails() {

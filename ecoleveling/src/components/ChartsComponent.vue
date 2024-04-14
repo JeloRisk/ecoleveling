@@ -19,7 +19,7 @@
             },
             roomId: {
                 type: String,
-                default: '', // Empty string by default means retrieve data for all rooms
+                default: '', // empty string by default means retrieve data for all rooms
             },
             startDate: {
                 type: String,
@@ -45,12 +45,12 @@
                 try {
                     let apiUrlWithParams = props.apiUrl;
 
-                    // Append room ID query parameter if it's provided and not empty
+                    // Append room ID query parameter nu  empty man
                     if (props.roomId.trim() !== '') {
                         apiUrlWithParams += `?room_id=${props.roomId}`;
                     }
 
-                    // Append start and end date parameters if they're provided
+                    // Append start and end date parameters  empty
                     if (props.startDate && props.endDate) {
                         apiUrlWithParams += `${props.roomId.trim() !== '' ? '&' : '?'}start_date=${props.startDate}&end_date=${props.endDate}`;
                     }
@@ -58,24 +58,24 @@
                     const response = await axios.get(apiUrlWithParams);
                     const { labels, data } = response.data;
 
-                    // Transform date labels
+                    // ttransform date labels
                     const startDate = new Date(props.startDate);
                     const endDate = new Date(props.endDate);
                     const allDates = eachDayOfInterval({ start: startDate, end: endDate });
                     const formattedLabels = allDates.map(date => format(date, 'MMMM d'));
 
-                    // Fill in missing dates with 0 usage minutes
+                    // i-fill na dagijay 0 missing dates with 0 usage minutes kase tay iot tay ket han nga makaproduce ti data nu nakapatay
                     const filledData = allDates.map(date => {
                         const dateIndex = labels.indexOf(format(date, 'yyyy-MM-dd'));
                         return dateIndex !== -1 ? data[dateIndex] : 0;
                     });
 
-                    // Destroy existing chart if it exists
+                    // Destroy  chart if it exists
                     if (chartCanvas.value && chartCanvas.value.chart) {
                         chartCanvas.value.chart.destroy();
                     }
 
-                    // Draw chart using Chart.js
+                    // draw
                     const ctx = chartCanvas.value.getContext('2d');
                     chartCanvas.value.chart = new Chart(ctx, {
                         type: 'line',
@@ -106,7 +106,6 @@
 </script>
 
 <style>
-/* Add Tailwind CSS classes for chart resizing */
 .canvas-container {
     width: 100%;
     height: auto;

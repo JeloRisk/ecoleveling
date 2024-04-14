@@ -1,8 +1,8 @@
 <template>
-    <div class="p-4 border border-gray-300 rounded">
+    <div class="p-4 border border-gray-300 rounded ">
         <div class="flex flex-col md:flex-row justify-between items-center mb-4">
-            <h1 class="mb-4 md:mb-0">Room Occupancy Chart</h1>
-            <div class="flex">  
+            <h2 class="text-2xl font-bold">Room Occupancy Chart</h2>
+            <div class="flex">
                 <input
                     type="date"
                     id="start-date"
@@ -51,7 +51,7 @@
         },
         data() {
             return {
-                apiUrl: 'http://localhost:8000/api/room-occupancy-log-books',
+                apiUrl: 'http://localhost:8000/api/get-chart-data',
                 roomId: '',
                 startDate: '',
                 endDate: '',

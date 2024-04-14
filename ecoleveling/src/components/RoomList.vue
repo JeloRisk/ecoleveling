@@ -5,7 +5,7 @@
             <div class="flex items-center">
                 <i class="fas fa-th-large text-xl mr-2"></i>
                 <RouterLink
-                    to="/all-rooms"
+                    to="/rooms"
                     class="text-blue-500 hover:underline"
                 >View All Rooms</RouterLink>
             </div>

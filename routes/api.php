@@ -25,4 +25,5 @@ Route::middleware('api')->group(function () {
 });
 Route::middleware('api')->group(function () {
     Route::resource('room-occupancy-log-books', RoomOccupancyLogBookController::class);
+    Route::get('get-chart-data', [RoomOccupancyLogBookController::class, 'getChartData']);
 });

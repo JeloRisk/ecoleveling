@@ -1,14 +1,15 @@
 // import { createMemoryHistory, createRouter } from 'vue-router'
 
 import Home from './components/Home.vue'
-import About from './components/RoomList.vue'
+import Rooms from './components/RoomList.vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import RoomDetails from './components/RoomDetails.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/about', component: About },
+
+  { path: '/rooms', component: Rooms },
   {
     path: '/room/:id',
     name: 'RoomDetails',
