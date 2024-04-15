@@ -44,7 +44,8 @@
 
         <!-- chart component for all rooms -->
         <ChartForAll />
-        >
+
+        <TableForAll :apiUrl="`${apiUrl}`" />
     </div>
 </template>
 
@@ -52,13 +53,17 @@
 <script>
     import axios from 'axios';
     import ChartForAll from '@/components/ChartForAll.vue';
+
+    import TableForAll from '@/components/TableForAll.vue';
     export default {
         components: {
-            ChartForAll
+            ChartForAll, TableForAll
         },
         data() {
             return {
                 rooms: [],
+                apiUrl: 'http://localhost:8000/api/room-occupancy-log-books',
+
             };
         },
         created() {

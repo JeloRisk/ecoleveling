@@ -45,12 +45,10 @@
                 try {
                     let apiUrlWithParams = props.apiUrl;
 
-                    // Append room ID query parameter nu  empty man
                     if (props.roomId.trim() !== '') {
                         apiUrlWithParams += `?room_id=${props.roomId}`;
                     }
 
-                    // Append start and end date parameters  empty
                     if (props.startDate && props.endDate) {
                         apiUrlWithParams += `${props.roomId.trim() !== '' ? '&' : '?'}start_date=${props.startDate}&end_date=${props.endDate}`;
                     }
