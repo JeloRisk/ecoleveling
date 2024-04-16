@@ -72,8 +72,9 @@
                     :endDate="endDate"
                     @data-fetch-request="fetchData"
                 /> -->
-                <ChartForAll :roomIdFromDetail="`${room.id}`" />
-
+                <div v-if="isDataAvailable">
+                    <ChartForAll :roomIdFromDetail="`${room.id}`" />
+                </div>
                 <!-- <DynamicTable
                     :columns="columns"
                     :rows="rows"
@@ -82,6 +83,7 @@
                 <TableForAll
                     :apiUrl="`${apiUrl}`"
                     :roomId="`${room.id}`"
+                    @data-available="handleDataAvailable"
                 />
             </div>
         </div>
@@ -112,7 +114,7 @@
                 apiUrl: 'http://localhost:8000/api/room-occupancy-log-books',
                 disableConfirmationButton: false,
 
-
+                isDataAvailable: false\,
                 // for dynamic table
                 columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
                 rows: [],
@@ -122,8 +124,10 @@
             this.fetchRoomDetails();
         },
         methods: {
-
-
+            handleDataAvailable(value) {
+                this.isDataAvailable = value;
+                console.log(this.isDataAvailable);
+            },
 
             // fetch room details from the backend
             fetchRoomDetails() {

@@ -57,9 +57,13 @@
                 endDate: '',
                 minDate: '',
                 maxDate: '',
+                isDataAvailable: false,
             };
         },
         methods: {
+            handleDataAvailable(value) {
+                this.isDataAvailable = value;
+            },
             async fetchData() {
                 try {
                     let apiUrlWithParams = this.apiUrl;

@@ -54,8 +54,9 @@
                         startTime: row.startTime,
                         endTime: row.endTime,
                         usageMinutes: this.formatNumber(`${row.usageMinutes}`),
-
                     }));
+
+                    this.$emit('data-available', this.rows.length > 0);
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
