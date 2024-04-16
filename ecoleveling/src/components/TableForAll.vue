@@ -1,9 +1,14 @@
 <template>
     <div>
-        <DynamicTable
-            :columns="columns"
-            :rows="rows"
-        />
+        <div v-if="rows.length > 0">
+            <DynamicTable
+                :columns="columns"
+                :rows="rows"
+            />
+        </div>
+        <div v-else>
+            <p>No data available.</p>
+        </div>
     </div>
 </template>
 
