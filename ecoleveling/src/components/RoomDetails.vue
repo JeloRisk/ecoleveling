@@ -114,7 +114,7 @@
                 apiUrl: 'http://localhost:8000/api/room-occupancy-log-books',
                 disableConfirmationButton: false,
 
-                isDataAvailable: false\,
+                isDataAvailable: false,
                 // for dynamic table
                 columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
                 rows: [],
