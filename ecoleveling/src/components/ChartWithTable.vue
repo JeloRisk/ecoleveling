@@ -30,13 +30,13 @@
             :endDate="endDate"
             @data-fetch-request="fetchData"
         />
-        <!-- <TableForAll
-            :apiUrl="`${apiUrl}`"
-            :roomId="`${room.id}`"
+        <TableForAll
+            :apiUrl="`${apiUrl2}`"
+            :roomId="roomIdFromDetail"
             :startDate="startDate"
             :endDate="endDate"
             @data-available="handleDataAvailable"
-        /> -->
+        />
     </div>
 </template>
 
@@ -44,12 +44,15 @@
 
 <script>
     import Chart from '@/components/ChartsComponent.vue';
+    import TableForAll from './TableForAll.vue';
+
 
     export default {
-        name: 'ChartForAll',
+        name: 'ChartWithTable',
         components: {
-            Chart,
+            Chart, TableForAll
         },
+
         props: {
             roomIdFromDetail: {
                 type: String,
@@ -59,29 +62,38 @@
         data() {
             return {
                 apiUrl: 'http://localhost:8000/api/get-chart-data',
+                apiUrl2: 'http://localhost:8000/api/room-occupancy-log-books',
                 roomId: '',
                 startDate: '',
                 endDate: '',
                 minDate: '',
                 maxDate: '',
-                dataAvailable: true,
+                isDataAvailable: true,
+                columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
+                rows: [],
             };
         },
         methods: {
             handleDataAvailable(value) {
-                this.dataAvailable = value;
+                this.isDataAvailable = value;
             },
             async fetchData() {
                 try {
                     let apiUrlWithParams = this.apiUrl;
+                    let apiUrlWithParams2 = this.apiUrl2;
                     if (this.roomId) {
                         apiUrlWithParams += `?room_id=${this.roomId}`;
+                        apiUrlWithParams2 += `?room_id=${this.roomId}`;
                         if (this.startDate && this.endDate) {
                             apiUrlWithParams += `&start_date=${this.startDate}&end_date=${this.endDate}`;
+                            apiUrlWithParams2 += `&start_date=${this.sDate}&end_date=${this.eDate}`;
                         }
                     } else if (this.startDate && this.endDate) {
                         apiUrlWithParams += `?start_date=${this.startDate}&end_date=${this.endDate}`;
+                        apiUrlWithParams2 += `?start_date=${this.sDate}&end_date=${this.eDate}`;
                     }
+                    // console.log(apiUrlWithParams)
+
                     const response = await fetch(apiUrlWithParams);
                     const { labels } = await response.json();
                     if (labels.length > 0) {

@@ -82,13 +82,21 @@ class RoomOccupancyLogBookController extends Controller
     //         'data' => $data
     //     ]);
     // }
+
     public function index(Request $request)
     {
         $logBooksQuery = RoomOccupancyLogBook::query();
 
-        // check if the room_id parameter is in the request and filter it by the ID.
         if ($request->has('room_id')) {
-            $logBooksQuery->where('room_id', $request->input('room_id'));
+            $logBooksQuery->where('room_occupancy_log_books.room_id', $request->input('room_id'));
+        }
+
+        // ukininana detoy hahaha. Thanks gemini.google.com
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $startDate = Carbon::parse($request->input('start_date'));
+            $endDate = Carbon::parse($request->input('end_date'))->endOfDay(); // Include end of day
+
+            $logBooksQuery->whereBetween('date', [$startDate, $endDate]);
         }
 
         // alaen tay idjay room table to retrieve the Room Number
@@ -98,7 +106,7 @@ class RoomOccupancyLogBookController extends Controller
         // sort  the log books by date
         $logBooksQuery->orderBy('date');
 
-        // retrieve or patch log books
+        // gg
         $logBooks = $logBooksQuery->get();
 
         return response()->json($logBooks);

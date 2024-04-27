@@ -31,6 +31,7 @@
             },
         },
         setup(props) {
+
             const chartCanvas = ref(null);
 
             onMounted(() => {
@@ -52,6 +53,7 @@
                     if (props.startDate && props.endDate) {
                         apiUrlWithParams += `${props.roomId.trim() !== '' ? '&' : '?'}start_date=${props.startDate}&end_date=${props.endDate}`;
                     }
+                    console.log(apiUrlWithParams)
 
                     const response = await axios.get(apiUrlWithParams);
                     const { labels, data } = response.data;
@@ -88,7 +90,7 @@
                             }],
                         },
                         options: {
-                            maintainAspectRatio: false, // Disable default aspect ratio
+                            maintainAspectRatio: false,
                         },
                     });
                 } catch (error) {

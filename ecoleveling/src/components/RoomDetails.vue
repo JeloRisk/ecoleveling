@@ -4,7 +4,7 @@
         v-if="room"
         class="container mx-auto"
     >
-
+        {{ end }}
 
         <div class="bg-gradient-to-r from-green-800 to-teal-600 h-fit px-6 py-4 rounded-lg">
             <span class="font-bold text-3xl mb-2 text-white">
@@ -72,19 +72,32 @@
                     :endDate="endDate"
                     @data-fetch-request="fetchData"
                 /> -->
+                <ChartWithTable
+                    :roomIdFromDetail="`${room.id}`"
+                    @start-date="handleStartDate"
+                    @end-date="handleEndDate"
+                    @data-available="handleDataAvailable"
+                />
                 <div v-if="isDataAvailable">
-                    <ChartForAll :roomIdFromDetail="`${room.id}`" />
+                    <ChartForAll
+                        :roomIdFromDetail="`${room.id}`"
+                        @start-date="handleStartDate"
+                        @end-date="handleEndDate"
+                        @data-available="handleDataAvailable"
+                    />
                 </div>
                 <!-- <DynamicTable
                     :columns="columns"
                     :rows="rows"
                 /> -->
 
-                <TableForAll
+                <!-- <TableForAll
                     :apiUrl="`${apiUrl}`"
                     :roomId="`${room.id}`"
+                    :sDate="`${start}`"
+                    :eDate="`${end}`"
                     @data-available="handleDataAvailable"
-                />
+                /> -->
             </div>
         </div>
     </div>
@@ -99,11 +112,12 @@
 <script>
     import axios from 'axios';
     // import Chart from '@/components/ChartsComponent.vue';
+    import ChartWithTable from './ChartWithTable.vue';
     import ChartForAll from './ChartForAll.vue';
     import TableForAll from './TableForAll.vue';
     export default {
         components: {
-            ChartForAll, TableForAll
+            ChartForAll, TableForAll, ChartWithTable
         },
         props: ['id'],
         data() {
@@ -115,7 +129,8 @@
                 disableConfirmationButton: false,
 
                 isDataAvailable: false,
-                // for dynamic table
+                start: '',
+                end: '',                // for dynamic table
                 columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
                 rows: [],
             };
@@ -123,10 +138,21 @@
         created() {
             this.fetchRoomDetails();
         },
+        mounted() {
+            this.handleStartDate();
+        },
         methods: {
             handleDataAvailable(value) {
+                console.log(value)
+
                 this.isDataAvailable = value;
-                console.log(this.isDataAvailable);
+            },
+            async handleStartDate(value) {
+                this.start = value;
+            },
+            handleEndDate(value) {
+
+                this.end = value;
             },
 
             // fetch room details from the backend
