@@ -3,7 +3,6 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <!-- loop through columns and create table headers -->
                     <th
                         v-for="(column, index) in columns"
                         :key="index"
@@ -24,7 +23,6 @@
                     >{{ value }}</td>
                 </tr>
 
-                <!-- If rows are empty and data is available, display a message -->
                 <tr v-if="!rows.length && dataAvailable">
                     <td
                         :colspan="columns.length"
@@ -63,6 +61,4 @@
     };
 </script>
 
-<style scoped>
-/* Add your component-specific styling here */
-</style>
+<style scoped></style>

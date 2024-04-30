@@ -44,7 +44,7 @@
             return {
                 columns: ['Room', 'Date', 'Start Time', 'End Time'],
                 rows: [],
-                dataAvailable: true, 
+                dataAvailable: true,
             };
         },
         setup(props) {
@@ -85,7 +85,7 @@
                         date: row.date,
                         startTime: row.startTime,
                         endTime: row.endTime,
-                        usageMinutes: formatNumber(row.usageMinutes), 
+                        usageMinutes: formatNumber(row.usageMinutes),
                     }));
                     console.log(rows)
                 } catch (error) {
