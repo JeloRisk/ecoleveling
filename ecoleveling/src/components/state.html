@@ -5,31 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light Control</title>
     <style>
-        #buttons{
-            display:flex;
-            flex-direction: row;
-            width:100%;
-        }
-        #light-state {
-            font-size: 24px;
+        .button-container {
+            display: flex;
+            justify-content: center;
             margin-top: 20px;
         }
         button {
             font-size: 18px;
             padding: 10px 20px;
+            margin: 0 10px;
+        }
+        #confirmModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        #modalContent {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+        }
+        .confirm-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .cancel-button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="ss">
-    <div id="buttons">
-        <form action="/on" method="GET">
-            <button type="submit">Turn On</button>
-        </form>
-        <form action="/off" method="GET">
-            <button type="submit">Turn Off</button>
-        </form>
+    <div class="button-container">
+        <button id="toggleButton">Turn Off</button>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal">
+        <div id="modalContent">
+            <p>Are you sure you want to change the light state?</p>
+            <input type="text" id="confirmInput" placeholder="CONFIRM">
+            <br>
+            <button id="confirmButton" class="confirm-button">Confirm</button>
+            <button id="cancelButton" class="cancel-button">Cancel</button>
+        </div>
     </div>
+
+    <script>
+        let isLightOn = false;
+
+        // Function to toggle light state and button text/color
+        function toggleLight() {
+            isLightOn = !isLightOn;
+            const toggleButton = document.getElementById('toggleButton');
+            toggleButton.textContent = isLightOn ? 'Turn Off' : 'Turn On';
+            toggleButton.style.backgroundColor = isLightOn ? '#f44336' : '#4CAF50';
+        }
+
+        // Function to display confirmation modal
+        function showConfirmationModal() {
+            const confirmModal = document.getElementById('confirmModal');
+            confirmModal.style.display = 'block';
+        }
+
+        // Function to hide confirmation modal
+        function hideConfirmationModal() {
+            const confirmModal = document.getElementById('confirmModal');
+            confirmModal.style.display = 'none';
+        }
+
+        // Event listener for toggle button
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            showConfirmationModal();
+        });
+
+        // Event listener for confirm button in modal
+        document.getElementById('confirmButton').addEventListener('click', function() {
+            const confirmInput = document.getElementById('confirmInput').value;
+            if (confirmInput === 'CONFIRM') {
+                toggleLight();
+                hideConfirmationModal();
+            } else {
+                alert('Please enter "CONFIRM" to confirm the action.');
+            }
+        });
+
+        // Event listener for cancel button in modal
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            hideConfirmationModal();
+        });
+
+        // Close the modal if the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            const confirmModal = document.getElementById('confirmModal');
+            if (event.target == confirmModal) {
+                hideConfirmationModal();
+            }
+        };
+    </script>
 </body>
 </html>

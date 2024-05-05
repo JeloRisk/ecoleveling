@@ -12,11 +12,11 @@
             </span>
             <!-- on/off button for status -->
             <div class="flex items-center">
-                <iframe
+                <!-- <iframe
                     src="http://192.168.1.103:8080"
                     class="xx"
                     @click.once="road"
-                />
+                /> -->
 
 
                 <!-- confirmation modal -->
