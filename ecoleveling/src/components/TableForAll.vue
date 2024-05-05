@@ -38,6 +38,10 @@
                 type: String,
                 default: '',
             },
+            kWh: {
+                type: String,
+                default: 'Hello',
+            },
 
         },
         data() {
@@ -85,7 +89,7 @@
                         date: row.date,
                         startTime: row.startTime,
                         endTime: row.endTime,
-                        usageMinutes: formatNumber(row.usageMinutes),
+                        usageMinutes: formatNumber(row.kWh),
                     }));
                     console.log(rows)
                 } catch (error) {
@@ -96,7 +100,7 @@
 
             }
 
-            const formatNumber = (num) => parseFloat(num).toFixed(2);
+            const formatNumber = (num) => parseFloat(num).toFixed(10);
             return { columns, rows }; // Return reactive data
 
 

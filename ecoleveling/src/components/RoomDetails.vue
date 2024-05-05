@@ -12,13 +12,12 @@
             </span>
             <!-- on/off button for status -->
             <div class="flex items-center">
-                <button
-                    @click="toggleStatus"
-                    :class="{ 'bg-green-600': room.status === 'Active', 'bg-red-600': room.status === 'Inactive' }"
-                    class="px-4 py-2 text-white rounded-md mr-4"
-                >
-                    {{ room.status === 'Active' ? 'On' : 'Off' }}
-                </button>
+                <iframe
+                    src="http://192.168.1.103:8080"
+                    class="xx"
+                    @click.once="road"
+                />
+
 
                 <!-- confirmation modal -->
                 <transition name="fade">
@@ -188,6 +187,10 @@
 
             // confirm if the input in the form is the same as the room number 
             // then change the room status to the opposite of the current status
+            road() {
+                window.location.reload();
+
+            },
             confirmStatusChange() {
                 if (this.confirmationText === this.room.roomNumber) {
                     this.showModal = false
@@ -218,5 +221,11 @@
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
+}
+
+.xx {
+    display: flex;
+    height: 70px;
+    outline: green;
 }
 </style>

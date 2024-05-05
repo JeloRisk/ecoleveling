@@ -68,6 +68,7 @@
                 endDate: '',
                 minDate: '',
                 maxDate: '',
+                kWh: '',
                 isDataAvailable: true,
                 columns: ['Room', 'Date', 'Start Time', 'end Time', 'Usage Per Minutes'],
                 rows: [],
@@ -101,6 +102,7 @@
                         this.maxDate = labels[labels.length - 1];
                         this.startDate = labels[0];
                         this.endDate = labels[labels.length - 1];
+                        
                     }
                     console.log(`${this.startDate}-${this.endDate}`)
 

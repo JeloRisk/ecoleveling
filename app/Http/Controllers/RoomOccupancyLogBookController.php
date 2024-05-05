@@ -95,7 +95,7 @@ class RoomOccupancyLogBookController extends Controller
         if ($request->has('start_date') && $request->has('end_date')) {
             $startDate = Carbon::parse($request->input('start_date'));
             $endDate = Carbon::parse($request->input('end_date'))->endOfDay(); // Include end of day
-
+            $kWh = Carbon::parse($request->input('kWh'));
             $logBooksQuery->whereBetween('date', [$startDate, $endDate]);
         }
 
@@ -104,8 +104,7 @@ class RoomOccupancyLogBookController extends Controller
             ->select('room_occupancy_log_books.*', 'rooms.roomNumber');
 
         // sort  the log books by date
-        $logBooksQuery->orderBy('date');
-
+        $logBooksQuery->orderByDesc('date')->orderByDesc('endTime');
         // gg
         $logBooks = $logBooksQuery->get();
 
@@ -131,7 +130,7 @@ class RoomOccupancyLogBookController extends Controller
 
         // calculate usage minutes per day
         $usageMinutesPerDay = $logBooksPerDay->map(function ($logBooks) {
-            return $logBooks->sum('usageMinutes');
+            return $logBooks->sum('kWh');
         });
 
         // labels -> dates, data is usage minutes

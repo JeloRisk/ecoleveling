@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Control</title>
+    <style>
+        #buttons{
+            display:flex;
+            flex-direction: row;
+            width:100%;
+        }
+        #light-state {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ss">
+    <div id="buttons">
+        <form action="/on" method="GET">
+            <button type="submit">Turn On</button>
+        </form>
+        <form action="/off" method="GET">
+            <button type="submit">Turn Off</button>
+        </form>
+    </div>
+    </div>
+</body>
+</html>

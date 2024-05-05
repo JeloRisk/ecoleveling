@@ -70,7 +70,17 @@
                         return dateIndex !== -1 ? data[dateIndex] : 0;
                     });
 
-                    // Destroy  chart if it exists
+                    // remove dates with 0 usage minutes
+                    const filteredLabels = [];
+                    const filteredData = [];
+                    for (let i = 0; i < formattedLabels.length; i++) {
+                        if (filledData[i] !== 0) {
+                            filteredLabels.push(formattedLabels[i]);
+                            filteredData.push(filledData[i]);
+                        }
+                    }
+
+                    // Destroy chart if it exists
                     if (chartCanvas.value && chartCanvas.value.chart) {
                         chartCanvas.value.chart.destroy();
                     }
@@ -80,10 +90,10 @@
                     chartCanvas.value.chart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: formattedLabels,
+                            labels: filteredLabels,
                             datasets: [{
                                 label: 'Room Occupancy',
-                                data: filledData,
+                                data: filteredData,
                                 fill: false,
                                 borderColor: 'rgb(75, 192, 192)',
                                 tension: 0.1,
