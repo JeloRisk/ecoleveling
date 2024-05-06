@@ -29,6 +29,10 @@ export default {
             type: String,
             default: "",
         },
+        selectedPeriod: {
+            type: String,
+            default: "last_7_days",
+        },
     },
     setup(props) {
         const chartCanvas = ref(null);
@@ -38,7 +42,7 @@ export default {
         });
 
         watch(
-            () => [props.startDate, props.endDate],
+            () => [props.startDate, props.endDate, props.selectedPeriod],
             () => {
                 fetchDataAndDrawChart();
             }
@@ -46,91 +50,107 @@ export default {
 
         const fetchDataAndDrawChart = async () => {
             try {
-                let apiUrlWithParams = props.apiUrl;
+                // console.log(props.selectedPeriod);
 
-                if (props.roomId.trim() !== "") {
-                    apiUrlWithParams += `?room_id=${props.roomId}`;
-                }
-
-                if (props.startDate && props.endDate) {
-                    apiUrlWithParams += `${
-                        props.roomId.trim() !== "" ? "&" : "?"
-                    }start_date=${props.startDate}&end_date=${props.endDate}`;
-                }
-                console.log(apiUrlWithParams);
-
-                const response = await axios.get(apiUrlWithParams);
-                const { labels, data } = response.data;
-
-                // ttransform date labels
-                const startDate = new Date(props.startDate);
-                const endDate = new Date(props.endDate);
-                const allDates = eachDayOfInterval({
-                    start: startDate,
-                    end: endDate,
-                });
-                const formattedLabels = allDates.map((date) =>
-                    format(date, "MMMM d")
-                );
-
-                // i-fill na dagijay 0 missing dates with 0 usage minutes kase tay iot tay ket han nga makaproduce ti data nu nakapatay
-                const filledData = allDates.map((date) => {
-                    const dateIndex = labels.indexOf(
-                        format(date, "yyyy-MM-dd")
-                    );
-                    return dateIndex !== -1 ? data[dateIndex] : 0;
-                });
-
-                // remove dates with 0 usage minutes
-                const filteredLabels = [];
-                const filteredData = [];
-                for (let i = 0; i < formattedLabels.length; i++) {
-                    if (filledData[i] !== 0) {
-                        filteredLabels.push(formattedLabels[i]);
-                        filteredData.push(filledData[i]);
+                if (props.selectedPeriod == "monthly") {
+                    console.log(props.selectedPeriod);
+                    if (chartCanvas.value && chartCanvas.value.chart) {
+                        chartCanvas.value.chart.destroy();
                     }
-                }
+                } else if (props.selectedPeriod == "last_7_days") {
+                    let apiUrlWithParams = props.apiUrl;
 
-                // Destroy chart if it exists
-                if (chartCanvas.value && chartCanvas.value.chart) {
-                    chartCanvas.value.chart.destroy();
-                }
+                    if (props.roomId.trim() !== "") {
+                        apiUrlWithParams += `?room_id=${props.roomId}`;
+                    }
 
-                // draw
-                const ctx = chartCanvas.value.getContext("2d");
-                chartCanvas.value.chart = new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: filteredLabels, // or formattedLabels
-                        datasets: [
-                            {
-                                label: "With Ecoleveling",
-                                data: filteredData,
-                                // or filledData
-                                fill: true,
-                                // backgroundColor: 'rgba(65, 184, 131, 0.5)',
-                                backgroundColor: "rgba(255, 255, 255, 1)",
+                    if (props.startDate && props.endDate) {
+                        apiUrlWithParams += `${
+                            props.roomId.trim() !== "" ? "&" : "?"
+                        }start_date=${props.startDate}&end_date=${
+                            props.endDate
+                        }`;
+                    }
+                    // console.log(apiUrlWithParams);
 
-                                borderColor: "rgb(65, 184, 131)",
-                                tension: 0.4,
-                                cubicInterpolationMode: "monotone",
-                                pointRadius: 4,
-                                pointHoverRadius: 10,
-                            },
+                    const response = await axios.get(apiUrlWithParams);
+                    const { labels, data } = response.data;
 
-                            {
-                                label: "Unobserved Schedule(3-hour Lab)",
-                                data: Array(filteredData.length).fill(0.09),
-                                fill: true,
-                                borderColor: "rgb(255, 99, 132)",
-                                tension: 0,
-                            },
-                        ],
-                    },
-                    options: {
+                    // ttransform date labels
+                    const startDate = new Date(props.startDate);
+                    const endDate = new Date(props.endDate);
+                    const allDates = eachDayOfInterval({
+                        start: startDate,
+                        end: endDate,
+                    });
+                    const formattedLabels = allDates.map((date) =>
+                        format(date, "MMMM dd yyyy")
+                    );
+
+                    // i-fill na dagijay 0 missing dates with 0 usage minutes kase tay iot tay ket han nga makaproduce ti data nu nakapatay
+                    const filledData = allDates.map((date) => {
+                        const dateIndex = labels.indexOf(
+                            format(date, "yyyy-MM-dd")
+                        );
+                        return dateIndex !== -1 ? data[dateIndex] : 0;
+                    });
+
+                    // remove dates with 0 usage minutes
+                    const filteredLabels = [];
+                    const filteredData = [];
+                    for (let i = 0; i < formattedLabels.length; i++) {
+                        if (filledData[i] !== 0) {
+                            filteredLabels.push(formattedLabels[i]);
+                            filteredData.push(filledData[i]);
+                        }
+                    }
+
+                    // Destroy chart if it exists
+                    if (chartCanvas.value && chartCanvas.value.chart) {
+                        chartCanvas.value.chart.destroy();
+                    }
+                    const options = {
                         maintainAspectRatio: false,
-                    },
-                });
+                        scales: {
+                            x: {
+                                // offset: true,
+                            },
+                        },
+                    };
+                    // draw
+                    const ctx = chartCanvas.value.getContext("2d");
+                    chartCanvas.value.chart = new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: filteredLabels, // or formattedLabels
+                            datasets: [
+                                {
+                                    label: "With Ecoleveling",
+                                    data: filteredData,
+                                    // or filledData
+                                    fill: true,
+                                    // backgroundColor: 'rgba(65, 184, 131, 0.5)',
+                                    backgroundColor: "rgba(255, 255, 255, 1)",
+
+                                    borderColor: "rgb(65, 184, 131)",
+                                    tension: 0.4,
+                                    cubicInterpolationMode: "monotone",
+                                    pointRadius: 4,
+                                    pointHoverRadius: 10,
+                                },
+
+                                {
+                                    label: "Unobserved Schedule(3-hour Lab)",
+                                    data: Array(filteredData.length).fill(0.09),
+                                    fill: true,
+                                    borderColor: "rgb(255, 99, 132)",
+                                    tension: 0,
+                                },
+                            ],
+                        },
+                        options: options,
+                    });
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
