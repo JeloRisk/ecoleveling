@@ -137,7 +137,7 @@ class RoomOccupancyLogBookController extends Controller
         $labels = $usageMinutesPerDay->keys()->toArray();
         $data = $usageMinutesPerDay->values()->toArray();
 
-        if ($request->input('period') === 'monthly') {
+        if ($request->input('period') === 'yearly') {
             // Group usage minutes by month
             $logBooksPerMonth = $logBooks->groupBy(function ($logBook) {
                 return Carbon::parse($logBook->date)->format('Y-m');
@@ -150,7 +150,7 @@ class RoomOccupancyLogBookController extends Controller
 
             // Labels -> months, data is usage minutes
             $labels = $usageMinutesPerMonth->keys()->map(function ($month) {
-                return Carbon::parse($month)->format('F');
+                return Carbon::parse($month)->format('Y-m');
             })->toArray();
 
             $data = $usageMinutesPerMonth->values()->toArray();

@@ -1,6 +1,8 @@
 <template>
-    <div class="p-4 border border-gray-300 rounded ">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+    <div class="p-4 border border-gray-300 rounded">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center mb-4"
+        >
             <h2 class="text-2xl font-bold">Room Occupancy Chart</h2>
             <div class="flex">
                 <input
@@ -28,6 +30,7 @@
             :roomId="roomIdFromDetail"
             :startDate="startDate"
             :endDate="endDate"
+            :selectedPeriod="selectedPeriod"
             @data-fetch-request="fetchData"
         />
         <!-- <TableForAll
@@ -40,76 +43,74 @@
     </div>
 </template>
 
-
-
 <script>
-    import Chart from '@/components/ChartsComponent.vue';
+import Chart from "@/components/ChartsComponent.vue";
 
-    export default {
-        name: 'ChartForAll',
-        components: {
-            Chart,
+export default {
+    name: "ChartForAll",
+    components: {
+        Chart,
+    },
+    props: {
+        roomIdFromDetail: {
+            type: String,
+            default: "",
         },
-        props: {
-            roomIdFromDetail: {
-                type: String,
-                default: '',
-            },
+    },
+    data() {
+        return {
+            apiUrl: "http://localhost:8000/api/get-chart-data",
+            roomId: "",
+            startDate: "",
+            endDate: "",
+            minDate: "",
+            maxDate: "",
+            selectedPeriod: "yearly",
+            dataAvailable: true,
+        };
+    },
+    methods: {
+        handleDataAvailable(value) {
+            this.dataAvailable = value;
         },
-        data() {
-            return {
-                apiUrl: 'http://localhost:8000/api/get-chart-data',
-                roomId: '',
-                startDate: '',
-                endDate: '',
-                minDate: '',
-                maxDate: '',
-                dataAvailable: true,
-            };
-        },
-        methods: {
-            handleDataAvailable(value) {
-                this.dataAvailable = value;
-            },
-            async fetchData() {
-                try {
-                    let apiUrlWithParams = this.apiUrl;
-                    if (this.roomId) {
-                        apiUrlWithParams += `?room_id=${this.roomId}`;
-                        if (this.startDate && this.endDate) {
-                            apiUrlWithParams += `&start_date=${this.startDate}&end_date=${this.endDate}`;
-                        }
-                    } else if (this.startDate && this.endDate) {
-                        apiUrlWithParams += `?start_date=${this.startDate}&end_date=${this.endDate}`;
+        async fetchData() {
+            try {
+                let apiUrlWithParams = this.apiUrl;
+                if (this.roomId) {
+                    apiUrlWithParams += `?room_id=${this.roomId}`;
+                    if (this.startDate && this.endDate) {
+                        apiUrlWithParams += `&start_date=${this.startDate}&end_date=${this.endDate}`;
                     }
-                    const response = await fetch(apiUrlWithParams);
-                    const { labels } = await response.json();
-                    if (labels.length > 0) {
-                        this.minDate = labels[0];
-                        this.maxDate = labels[labels.length - 1];
-                        this.startDate = labels[0];
-                        this.endDate = labels[labels.length - 1];
-                    }
-                    console.log(`${this.startDate}-${this.endDate}`)
-
-                    this.$emit('start-date', this.startDate);
-
-                    this.$emit('end-date', this.endDate);
-
-                } catch (error) {
-                    console.error('Error fetching data:', error);
+                } else if (this.startDate && this.endDate) {
+                    apiUrlWithParams += `?start_date=${this.startDate}&end_date=${this.endDate}`;
                 }
-            },
-            updateEndDate() {
-                if (this.endDate < this.startDate) {
-                    this.endDate = this.startDate;
+                const response = await fetch(apiUrlWithParams);
+                const { labels } = await response.json();
+                if (labels.length > 0) {
+                    this.minDate = labels[0];
+                    this.maxDate = labels[labels.length - 1];
+                    this.startDate = labels[0];
+                    this.endDate = labels[labels.length - 1];
                 }
-            },
+                console.log(`${this.startDate}-${this.endDate}`);
+
+                this.$emit("start-date", this.startDate);
+
+                this.$emit("end-date", this.endDate);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         },
-        mounted() {
-            this.fetchData();
+        updateEndDate() {
+            if (this.endDate < this.startDate) {
+                this.endDate = this.startDate;
+            }
         },
-    };
+    },
+    mounted() {
+        this.fetchData();
+    },
+};
 </script>
 
 <style>

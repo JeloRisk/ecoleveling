@@ -52,6 +52,10 @@
         to="/rooms"
         class="mx-4"
       >Rooms</RouterLink>
+      <RouterLink
+        to="/activity-log"
+        class="mx-4"
+      >Activity Log</RouterLink>
     </div>
   </nav>
   <div
@@ -69,6 +73,10 @@
         to="/rooms"
         class="block p-4 hover:bg-gray-300 hover:text-gray-800 text-white rounded-lg"
       >Rooms</RouterLink>
+      <RouterLink
+        to="/activity-log"
+        class="block p-4 hover:bg-gray-300 hover:text-gray-800 text-white rounded-lg"
+      >Activity Log</RouterLink>
     </div>
   </div>
 
