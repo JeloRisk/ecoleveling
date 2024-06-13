@@ -1,43 +1,43 @@
 <template>
-    <div class="border border-gray-200 rounded-xl p-8 bg-white">
-        <div class="flex justify-between items-center mb-4">
+    <div>
+        <div class="border border-gray-200 rounded-xl p-8 bg-white">
             <h2 class="text-xl font-semibold">Activity Log</h2>
-            <router-link
-                :to="{ path: '/activity-log' }"
-                class="text-[#117D2C] hover:underline text-sm"
-            >
-                See all
-            </router-link>
-        </div>
-        <div v-if="rows.length > 0" class="">
-            <TableSlice
-                :columns="columns"
-                :rows="rows"
-                :tablePagination="tablePagination"
+
+            <DatePickerVue
+                v-if="isDatepicker"
+                @dateselected="handleDateSelected"
             />
+            <div v-if="rows.length > 0">
+                <DynamicTable
+                    :columns="columns"
+                    :rows="rows"
+                    :tablePagination="tablePagination"
+                />
+            </div>
+            <div v-else>
+                <p>No data available.</p>
+            </div>
         </div>
-        <div v-else>
-            <p class="text-gray-500">No data available.</p>
-        </div>
+
+        <!-- </div> -->
     </div>
 </template>
 
 <script>
-// import DynamicTable from "@/components/uiComponents/DynamicTable.vue";
-import TableSlice from "./uiComponents/TableSlice.vue";
+import DynamicTable from "@/components/uiComponents/DynamicTable.vue";
 import axios from "axios";
 import { onMounted, ref, watch, watchEffect } from "vue";
-
+import DatePickerVue from "./DatePicker.vue";
 export default {
-    name: "MyComponent",
+    name: "LogTable",
     components: {
-        // DynamicTable,
-        TableSlice,
+        DynamicTable,
+        DatePickerVue,
     },
     props: {
         apiUrl: {
             type: String,
-            required: true,
+            required: false,
         },
         roomId: {
             type: String,
@@ -55,17 +55,39 @@ export default {
             type: String,
             default: "Hello",
         },
+        datepicker: {
+            type: Boolean,
+            default: false,
+        },
     },
-    data() {
+    data(props) {
         return {
             columns: ["Room", "Date", "Start Time", "End Time", "kWh"],
             rows: [],
+            isDatepicker: props.datepicker,
             dataAvailable: true,
-            tablePagination: false,
+            tablePagination: true,
+            sDate: "",
+            eDate: "",
         };
     },
+    methods: {
+        handleDateSelected(startDate, endDate) {
+            console.log(startDate);
+            this.sDate = startDate;
+            this.eDate = endDate;
+
+            this.dateselected2();
+        },
+        dateselected2() {
+            this.$emit("dateselected2", this.sDate, this.eDate);
+        },
+    },
     setup(props) {
+        const eDate = ref([]);
+        const sDate = ref([]);
         const rows = ref([]);
+        console.log(rows);
 
         const columns = [
             "Room",
@@ -75,27 +97,25 @@ export default {
             "Total Time Usage",
             "kWh",
         ];
+
         onMounted(() => {
             fetchData();
         });
+
         watch(
             () => [props.startDate, props.endDate],
             () => {
                 fetchData();
             }
         );
-
         const fetchData = async () => {
             try {
-                let apiUrlWithParams = props.apiUrl;
-                if (props.roomId.trim() !== "") {
-                    apiUrlWithParams += `?room_id=${props.roomId}`;
-                }
+                let apiUrlWithParams =
+                    "http://localhost:8000/api/room-occupancy-log-books";
                 if (props.startDate && props.endDate) {
-                    apiUrlWithParams += `${
-                        props.roomId.trim() !== "" ? "&" : "?"
-                    }start_date=${props.startDate}&end_date=${props.endDate}`;
+                    apiUrlWithParams += `?start_date=${props.startDate}&end_date=${props.endDate}`;
                 }
+
                 console.log(apiUrlWithParams);
 
                 const response = await axios.get(apiUrlWithParams);
@@ -114,6 +134,7 @@ export default {
                     usageMinutes: convertToHours(row.usageMinutes),
                     kWh: formatNumber(row.kWh),
                 }));
+                console.log(rows);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -142,13 +163,12 @@ export default {
             return parts.join(" ");
         };
 
-        // Example usage:
         const totalMinutes = 62;
         const result = convertToHours(totalMinutes);
-        console.log(result); // Output: "1 hour 2 minutes"
-
+        console.log(result);
         const formatNumber = (num) => parseFloat(num).toFixed(10);
-        return { columns, rows }; // Return reactive data
+
+        return { columns, rows, sDate, eDate };
     },
 };
 </script>

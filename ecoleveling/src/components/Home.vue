@@ -11,9 +11,11 @@
         </div>
 
         <!-- Room list -->
-        <div class="h-full md:col-span-1 col-span-3 ">
-            <div class="space-y-6  h-full">
-                <div class="border border-gray-200 rounded-xl p-8 bg-white  h-full">
+        <div class="h-full md:col-span-1 col-span-3">
+            <div class="space-y-6 h-full">
+                <div
+                    class="border border-gray-200 rounded-xl p-8 bg-white h-full"
+                >
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-semibold">Rooms</h2>
                         <RouterLink
@@ -40,7 +42,6 @@
                                 }"
                                 class="flex items-center"
                             >
-                                <!-- Room number box -->
                                 <div
                                     class="bg-[#117D2C] text-white rounded-md p-2 mr-2 h-10 w-10 text-center"
                                 >
@@ -55,12 +56,7 @@
                                 <!-- Room status -->
                                 <div>
                                     <p
-                                        :class="{
-                                            // 'text-green-600':
-                                            //     room.status === 'With Ecoleveling',
-                                            // 'text-gray-300':
-                                            //     room.status !== 'With Ecoleveling',
-                                        }"
+                                        :class="{}"
                                         class="group-hover:text-gray-700"
                                     >
                                         Status: {{ room.status }}

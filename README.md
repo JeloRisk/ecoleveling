@@ -1,66 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+[English](/README.md) | [Tagalog](/README-FIL.md)
+
+# EcoLeveling (Website Documentation)
+
+## Overview
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="usecaseDiagram.png" alt="Home Page" width="600">
 </p>
+The diagram shown the use cases for the ECOLEVELING website, highlighting the interactions a faculty member can have with the system. One key function allows the user to view the dashboard, which provides a comprehensive analysis of data collected from the ECOLEVELING IoT system, showcasing various metrics and insights for monitoring overall performance. Users can access and manage lab rooms, where they have the ability to control the lighting by turning lights on and off, as well as view individual electricity consumption data, which can be filtered by date to offer detailed insights into energy usage patterns. Additionally, the user can navigate and filter through the activity log, reviewing recorded activities to help in monitoring and auditing the system's usage and actions.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [EcoLeveling (Website Documentation)](#ecoleveling-website-documentation)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Backend Setup (Laravel)](#backend-setup-laravel)
+    - [Frontend Setup (Vue.js)](#frontend-setup-vuejs)
+  - [Usage](#usage)
+    - [Starting the Development Server](#starting-the-development-server)
+    - [Building for Production](#building-for-production)
+  - [Screenshot](#screenshot)
+    - [Dashboard](#dashboard)
+    - [Specific Room Monitoring Page](#specific-room-monitoring-page)
+    - [Website Activity Log Page](#website-activity-log-page)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+Before you begin, ensure you have the following installed on your machine:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   PHP >= 7.4
+-   Composer
+-   Node.js >= 12.x
+-   npm or Yarn
+-   MySQL or any other preferred database
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Backend Setup (Laravel)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Be in the Folder**
 
-## Laravel Sponsors
+    ```sh
+    cd ecoleveling
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install PHP dependencies:**
 
-### Premium Partners
+    ```sh
+    composer install
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. **Create a `.env` file:**
 
-## Contributing
+    ```sh
+    cp .env.example .env
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Generate an application key:**
 
-## Code of Conduct
+    ```sh
+    php artisan key:generate
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. **Configure the `.env` file:**
 
-## Security Vulnerabilities
+    - Set your database credentials.
+    - Set other environment variables as needed.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. **Run the migrations:**
+    ```sh
+    php artisan migrate
+    ```
 
-## License
+### Frontend Setup (Vue.js)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. **Go to the frontend directory:**
+
+    ```sh
+    cd ecoleveling
+    ```
+
+    so, you are now in `ecoleveling\ecoleveling`
+
+2. **Install JavaScript dependencies:**
+    ```sh
+    npm install
+    # or
+    yarn install
+    ```
+
+## Usage
+
+### Starting the Development Server
+
+To start the Laravel development server and the Vue.js development server:
+
+1. **Start the Laravel server:**
+
+    Go back to [Backend](/) and run
+
+    ```sh
+    php artisan serve
+    ```
+
+2. **Start the Vue.js development server:**
+    ```sh
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+### Building for Production
+
+To run the assets for frontend production:
+
+1. **Locate frontend directory [\ecoleveling](\ecoleveling)**
+
+2. **Build Vue.js assets:**
+    ```sh
+    npm run production
+    # or
+    yarn production
+    ```
+
+## Screenshot
+
+### Dashboard
+
+![alt text](/screenshot/overview.png)
+
+-   On the dashboard, you can see how data adds up over different dates. You will also find detailed logs of recent activities and information about the monitored rooms.
+
+### Specific Room Monitoring Page
+
+![alt text](/screenshot/specific_room_monitoring_page.png)
+
+-   You can see the specific room's data changes over time. You can filter and analyzer data for specific dates, whether you want to see it monthly or daily. **There is a button to easily control room's light.** You can turn it on or off whenever you need, whether it is automatically or manually.
+
+### Website Activity Log Page
+
+![alt text](/screenshot/Website_Activity_Log_Page.png)
+
+-   Activity log page makes it easy for users to filter and navigate through activities, facilitated by a user-friendly interface with pagination features.

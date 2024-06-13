@@ -50,13 +50,7 @@ export default {
 
         const fetchDataAndDrawChart = async () => {
             try {
-                // console.log(props.selectedPeriod);
-
                 if (props.selectedPeriod == "yearly") {
-                    // console.log(props.selectedPeriod);
-                    // if (chartCanvas.value && chartCanvas.value.chart) {
-                    //     chartCanvas.value.chart.destroy();
-                    // }
                     let apiUrlWithParams = props.apiUrl;
 
                     if (props.roomId.trim() !== "") {
@@ -68,7 +62,6 @@ export default {
                             props.roomId.trim() !== "" ? "&" : "?"
                         }period=${props.selectedPeriod}`;
                     }
-                    // console.log(apiUrlWithParams);
 
                     const response = await axios.get(apiUrlWithParams);
                     const { labels, data } = response.data;
@@ -138,45 +131,16 @@ export default {
                             datasets: [
                                 {
                                     label: "With Ecoleveling",
-                                    // data: filteredData,
-                                    // or filledData
+
                                     data: filledData,
-                                    // or filledData
                                     fill: false,
-                                    // backgroundColor: 'rgba(65, 184, 131, 0.5)',
-                                    // backgroundColor: function (context) {
-                                    //     var chart = context.chart;
-                                    //     var gradient =
-                                    //         chart.ctx.createLinearGradient(
-                                    //             0,
-                                    //             0,
-                                    //             0,
-                                    //             chart.height
-                                    //         );
-                                    //     gradient.addColorStop(
-                                    //         0.25,
-                                    //         "rgba(65, 184, 131, 1)"
-                                    //     );
-                                    //     gradient.addColorStop(
-                                    //         0.75,
-                                    //         "rgba(255, 255, 255, 1)"
-                                    //     );
-                                    //     return gradient;
-                                    // },
+
                                     borderColor: "rgb(65, 184, 131)",
                                     tension: 0.4,
                                     cubicInterpolationMode: "monotone",
                                     pointRadius: 0,
                                     pointHoverRadius: 10,
                                 },
-
-                                // {
-                                //     label: "Unobserved Schedule(3-hour Lab)",
-                                //     data: Array(filteredData.length).fill(0.09),
-                                //     fill: true,
-                                //     borderColor: "rgb(255, 99, 132)",
-                                //     tension: 0,
-                                // },
                             ],
                         },
                         options: options,
@@ -195,7 +159,6 @@ export default {
                             props.endDate
                         }`;
                     }
-                    // console.log(apiUrlWithParams);
 
                     const response = await axios.get(apiUrlWithParams);
                     const { labels, data } = response.data;

@@ -12,12 +12,15 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "date-fns": "^3.6.0",
+    "flowbite": "^2.3.0",
     "vue": "^3.4.21",
     "vue-axios": "^3.5.2",
     "vue-chartjs": "^5.3.1",
+    "vue-date-range-picker": "^1.0.1",
     "vue-router": "^4.3.0",
     "vue2-daterange-picker": "^0.6.8",
     "vue3-datepicker": "^0.4.0",
+    "vue3-daterange-picker": "^1.0.1",
     "vuetify": "^3.5.15"
   },
   "devDependencies": {

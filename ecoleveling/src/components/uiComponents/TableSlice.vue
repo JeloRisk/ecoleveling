@@ -14,7 +14,6 @@
                         }"
                         class="text-left font-medium uppercase tracking-wider"
                     >
-                        <!-- {{ index }} -->
                         {{ column }}
                     </th>
                 </tr>

@@ -1,27 +1,39 @@
 <template>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto text-sm">
         <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+            <thead class="">
                 <tr>
                     <th
                         v-for="(column, index) in columns"
                         :key="index"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        :class="{
+                            'text-right px-0': index === rowCount - 1,
+                            'text-left px-0': index === 0,
+                            'text-left px-6 py-3':
+                                index > 0 && index < rowCount - 1,
+                        }"
+                        class="text-left font-medium uppercase tracking-wider"
                     >
                         {{ column }}
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200 text-[#585757]">
+            <tbody class="bg-white divide-y divide-gray-200">
                 <tr
-                    v-for="(row, index) in displayedRows"
-                    :key="index"
+                    v-for="(row, rowIndex) in displayedRows"
+                    :key="rowIndex"
                     class="hover:bg-gray-50"
                 >
                     <td
-                        v-for="(value, key) in row"
-                        :key="key"
-                        class="px-6 py-4 whitespace-nowrap"
+                        v-for="(value, colIndex, index) in row"
+                        :key="colIndex"
+                        :class="{
+                            'text-right px-0': index === rowCount - 1,
+                            'text-left px-0': index === 0,
+                            'text-left px-6 py-3':
+                                index > 0 && index < rowCount - 1,
+                        }"
+                        class="whitespace-nowrap"
                     >
                         {{ value }}
                     </td>
@@ -107,7 +119,7 @@ export default {
         },
         initialItemsPerPage: {
             type: Number,
-            default: 5,
+            default: 10,
         },
         perPageOptions: {
             type: Array,
@@ -131,7 +143,6 @@ export default {
         },
         paginationSummary() {
             const startItem = (this.currentPage - 1) * this.itemsPerPage + 1;
-            // console.log(this.currentPage);
 
             const endItem = Math.min(
                 startItem + this.itemsPerPage - 1,
@@ -145,6 +156,9 @@ export default {
             } else {
                 return `${startItem}-${endItem} of ${this.rows.length} rows`;
             }
+        },
+        rowCount() {
+            return this.columns.length;
         },
     },
     data() {

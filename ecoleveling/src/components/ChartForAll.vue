@@ -33,13 +33,6 @@
             :selectedPeriod="selectedPeriod"
             @data-fetch-request="fetchData"
         />
-        <!-- <TableForAll
-            :apiUrl="`${apiUrl}`"
-            :roomId="`${room.id}`"
-            :startDate="startDate"
-            :endDate="endDate"
-            @data-available="handleDataAvailable"
-        /> -->
     </div>
 </template>
 
@@ -113,6 +106,4 @@ export default {
 };
 </script>
 
-<style>
-/* Add any custom styles for your home component */
-</style>
+<style></style>

@@ -10,11 +10,11 @@
             </span>
             <!-- on/off button for status -->
             <div class="flex items-center">
-                <!-- <iframe
+                <iframe
                     src="http://192.168.1.103:8080"
                     class="xx"
                     @click.once="road"
-                /> -->
+                />
 
                 <!-- confirmation modal -->
                 <transition name="fade">
@@ -74,17 +74,7 @@
                     <span class="text-gray-700">Status:</span>
                     <span class="font-bold">{{ room.status }}</span>
                 </div>
-                <!-- <Chart
-                    :apiUrl="apiUrl"
-                    :roomId="`${room.id}`"
-                /> -->
-                <!-- <ChartForAll
-                    :apiUrl="apiUrl"
-                    :roomId="`${room.id}`"
-                    :startDate="startDate"
-                    :endDate="endDate"
-                    @data-fetch-request="fetchData"
-                /> -->
+
                 <ChartWithTable
                     :roomIdFromDetail="`${room.id}`"
                     @start-date="handleStartDate"
@@ -99,18 +89,6 @@
                         @data-available="handleDataAvailable"
                     />
                 </div>
-                <!-- <DynamicTable
-                    :columns="columns"
-                    :rows="rows"
-                /> -->
-
-                <!-- <TableForAll
-                    :apiUrl="`${apiUrl}`"
-                    :roomId="`${room.id}`"
-                    :sDate="`${start}`"
-                    :eDate="`${end}`"
-                    @data-available="handleDataAvailable"
-                /> -->
             </div>
         </div>
     </div>
